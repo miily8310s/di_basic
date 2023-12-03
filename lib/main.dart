@@ -52,13 +52,11 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
               'Start Page Screen',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            OutlinedButton(onPressed: () {}, child: Text("Get Date"))
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -96,8 +94,12 @@ class DetailsPage extends StatelessWidget {
   }
 }
 
-class AppService {
-  // CAUTION: コメントを外すとエラーが出る
-  // final bool isChanged;
-  // AppService(this.isChanged);
+void showSnackBar(String currentDate, BuildContext context) {
+  SnackBar snackBar = SnackBar(
+    content: Text(currentDate),
+    duration: const Duration(milliseconds: 500),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
+
+class AppService {}
