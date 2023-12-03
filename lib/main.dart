@@ -1,6 +1,9 @@
+import 'package:di_basic/app_service.dart';
+import 'package:di_basic/injection_container.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  setup();
   runApp(const MyApp());
 }
 
@@ -39,8 +42,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  final AppService _appService = AppService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +53,16 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
               'Start Page Screen',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            OutlinedButton(
+                onPressed: () {
+                  String currentDate = locator<AppService>().execute();
+                  showSnackBar(currentDate, context);
+                },
+                child: Text("Get Date"))
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -68,8 +72,6 @@ class MyHomePage extends StatelessWidget {
 
 class DetailsPage extends StatelessWidget {
   DetailsPage({super.key});
-
-  final AppService _appService = AppService();
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +98,10 @@ class DetailsPage extends StatelessWidget {
   }
 }
 
-class AppService {
-  // CAUTION: コメントを外すとエラーが出る
-  // final bool isChanged;
-  // AppService(this.isChanged);
+void showSnackBar(String currentDate, BuildContext context) {
+  SnackBar snackBar = SnackBar(
+    content: Text(currentDate),
+    duration: const Duration(milliseconds: 500),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
